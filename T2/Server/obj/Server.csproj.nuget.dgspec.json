@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Servidor/Servidor.csproj": {}
+    "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Server/Server.csproj": {}
   },
   "projects": {
-    "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Servidor/Servidor.csproj": {
+    "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Server/Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Servidor/Servidor.csproj",
-        "projectName": "Servidor",
-        "projectPath": "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Servidor/Servidor.csproj",
+        "projectUniqueName": "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Server/Server.csproj",
+        "projectName": "Server",
+        "projectPath": "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Server/Server.csproj",
         "packagesPath": "/Users/josefaespinoza/.nuget/packages/",
-        "outputPath": "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Servidor/obj/",
+        "outputPath": "/Users/josefaespinoza/Documents/UNIVERSIDAD/2022-2/Diseño detallado de software/T2/T2-DDS/T2/Server/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/josefaespinoza/.nuget/NuGet/NuGet.Config"
