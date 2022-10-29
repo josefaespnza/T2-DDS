@@ -8,4 +8,9 @@ public class Player
     {
         get { return _hand; }
     }
+
+    public void AddCardHand(Card card)
+    {
+        _hand.Add(card);
+    }
 }

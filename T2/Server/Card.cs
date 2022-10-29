@@ -10,5 +10,16 @@ public class Card
         _pinta = pinta;
         _value = value;
     }
+
+    public string pinta
+    {
+        get { return _pinta; }
+    }
+
+    public CardValue value
+    {
+        get { return _value; }
+    }
+
 }
 

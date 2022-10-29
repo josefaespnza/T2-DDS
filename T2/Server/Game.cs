@@ -2,20 +2,39 @@ namespace Server;
 
 public class Game
 {
+    private int _playerDistributor = 0;
+    private const int NumOfPlayers = 2;
+
     private Players _players;
     private int _idPlayerTurn;
     private Table _table;
     
-    private View _view = new View();
+    private View _view = new ConsoleView();
     public Game()
     {
         EmptyTable();
         InitializePlayers();
-        //repartir cartas -> la mesa es la que reparte las cartas y reuelve?
-        //decidir quien parte -> el jugador 0 parte primero y si se quiere volver a jugar parte el 1
+        DistributeCards();
+        DecideWhoStars();
+        _view.Welcome();
+        
+    }
+    private void EmptyTable() => _table = new Table();
+    private void InitializePlayers() => _players = new Players(NumOfPlayers);
+    private void DistributeCards() => _players.DistributeCards(_table, _playerDistributor);
+    private void DecideWhoStars() => _idPlayerTurn = (_playerDistributor + 1) % NumOfPlayers;
+    public void Play()
+    {
+        while (!IsGameOver())
+        {
+            
+        }
     }
 
-    private void EmptyTable() => _table = new Table();
-    private void InitializePlayers() => _players = new Players();
-    
+    private bool IsGameOver()
+    {
+        return false;
+    }
+
+
 }
