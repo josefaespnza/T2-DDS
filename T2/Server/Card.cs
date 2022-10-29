@@ -11,15 +11,18 @@ public class Card
         _value = value;
     }
 
-    public string pinta
+    public string Pinta
     {
         get { return _pinta; }
     }
 
-    public CardValue value
+    public CardValue Value
     {
         get { return _value; }
     }
+
+    public override string ToString() => _value + "_" + _pinta;
+
 
 }
 

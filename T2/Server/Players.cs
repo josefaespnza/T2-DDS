@@ -7,10 +7,7 @@ public class Players
     public Players(int numOfPlayers)
     {
         _players = new List<Player>();
-        for (int i = 0; i < numOfPlayers; i++)
-        {
-            _players.Add(new Player());
-        }
+        for (int i = 0; i < numOfPlayers; i++) _players.Add(new Player());
     }
 
     public void DistributeCards(Table table, int playerDistributorId)
@@ -22,4 +19,7 @@ public class Players
         pile.GiveCardsToTable(table, 4);
         table.PutPileOnTable(pile);
     }
+
+    public Player GetPlayer(int playerIndex) => _players[playerIndex];
+    
 }

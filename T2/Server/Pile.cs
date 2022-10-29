@@ -2,7 +2,7 @@ namespace Server;
 
 public class Pile
 {
-    private string[] _pintas = {"oro","espada","copa","bastos"}; 
+    private string[] _pintas = {"Oro","Espada","Copa","Bastos"}; 
     private List<Card> _pileOfCards;
 
     public Pile()
@@ -47,4 +47,6 @@ public class Pile
             (_pileOfCards[rndPosition], _pileOfCards[i]) = (_pileOfCards[i], _pileOfCards[rndPosition]);
         }
     }
+
+    public bool isThereCardsOnThePile() => _pileOfCards.Any();
 }
