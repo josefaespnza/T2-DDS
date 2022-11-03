@@ -62,6 +62,9 @@ public abstract class View
     }
 
     public void InformEscoba(int playerId) => Write("ESCOBA! **** Jugador "+playerId);
+
+    public void InformEscobaSpecial(int playerId, int points) =>
+        Write("Jugador " + playerId + " realizó " + points+" **Escobas**");
     private int AskValidNumber(int minValue, int maxValue)
     {
         int number;

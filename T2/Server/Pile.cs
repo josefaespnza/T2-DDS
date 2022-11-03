@@ -22,13 +22,15 @@ public class Pile
         }
     }
 
-    public void GiveCardsToPlayer(Player player, int cardsQuantity)
+    public void GiveCardsToPlayer(Player player)
     {
-        for(int i=0; i<cardsQuantity; i++) player.AddCardHand(TakeCardOfPile());
+        int cardQuantity = 3;
+        for(int i=0; i<cardQuantity; i++) player.AddCardHand(TakeCardOfPile());
     }
 
-    public void GiveCardsToTable(Table table, int cardsQuantity)
+    public void GiveCardsToTable(Table table)
     {
+        int cardsQuantity = 4;
         for(int i=0; i<cardsQuantity; i++) table.AddCardsToTable(TakeCardOfPile());
     }
 
@@ -41,11 +43,8 @@ public class Pile
 
     public void MixPile()
     {
-        for (int i = 0; i < 40; i++)
-        {
-            int rndPosition =(int) RandomNumberGenerator.Generate();
-            (_pileOfCards[rndPosition], _pileOfCards[i]) = (_pileOfCards[i], _pileOfCards[rndPosition]);
-        }
+        _pileOfCards = _pileOfCards.OrderBy(carta => RandomNumberGenerator.Generate()).ToList();
+
     }
 
     public bool isThereCardsOnThePile() => _pileOfCards.Any();

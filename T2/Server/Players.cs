@@ -14,13 +14,18 @@ public class Players
     {
         Pile pile = new Pile();
         pile.MixPile();
-        pile.GiveCardsToPlayer(_players[(playerDistributorId + 1) % 2], 3);
-        pile.GiveCardsToPlayer(_players[playerDistributorId],3);
-        pile.GiveCardsToTable(table, 4);
-        //checkear si se armo una escoba
+        pile.GiveCardsToPlayer(_players[(playerDistributorId + 1) % 2]);
+        pile.GiveCardsToPlayer(_players[playerDistributorId]);
+        pile.GiveCardsToTable(table);
         table.PutPileOnTable(pile);
     }
 
+    public void SumEscobaSpecialCase(int points, int playerDistributorId)
+    {
+        for(int numEscobas=0; numEscobas<points; numEscobas++) SumPoint(playerDistributorId);
+    }
+   
+    
     public bool IsBothPlayersHandEmpty()
     {
         if (!_players[0].IsThereCardsToPlay() && !_players[1].IsThereCardsToPlay())
@@ -33,11 +38,11 @@ public class Players
     public void HandlePlayedMove(int playerId, Move move)
     {
         Player player = GetPlayer(playerId);
-        player.AddPlayedMove(move);
+        player.AddPlayedMove(move.PossibleMoves);
         player.TakeCardOutOfHand(move.PossibleMoves[0]);
     }
 
-    public void SumPointEscoba(int playerId)
+    public void SumPoint(int playerId)
     {
         Player player = GetPlayer(playerId);
         player.AddPoint();

@@ -30,9 +30,9 @@ public class Player
         _hand.Remove(card);
     }
 
-    public void AddPlayedMove(Move played)
+    public void AddPlayedMove(List<Card> movePlayed)
     {
-        foreach (var card in played.PossibleMoves)
+        foreach (var card in movePlayed)
         {
             _movesPlayed.Add(card);
         }

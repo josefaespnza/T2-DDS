@@ -11,5 +11,5 @@ public enum CardValue
     Siete = 7,
     Sota = 8,
     Caballo = 9,
-    Rey = 12
+    Rey = 10
 }

@@ -13,17 +13,32 @@ public class Game
     private View _view = new ConsoleView();
     public Game()
     {
+        _view.Welcome();
         EmptyTable();
         InitializePlayers();
         DistributeCards();
+        SpecialCaseEscoba();
         DecideWhoStars();
-        _view.Welcome();
+        
         
     }
     private void EmptyTable() => _table = new Table();
     private void InitializePlayers() => _players = new Players(NumOfPlayers);
     private void DistributeCards() => _players.DistributeCards(_table, _playerDistributor);
     private void DecideWhoStars() => _idPlayerTurn = (_playerDistributor + 1) % NumOfPlayers;
+    private void SpecialCaseEscoba()
+    {
+        int points = SubsetSum.PartitionSet(_table.CardsOnTable);
+        if (points!=0)
+        {
+            Player player = _players.GetPlayer(_playerDistributor);
+            player.AddPlayedMove(_table.CardsOnTable);
+            _table.DrawCardsFromTable(_table.CardsOnTable);
+            _players.SumEscobaSpecialCase(points, _playerDistributor);
+            _view.InformEscobaSpecial(_playerDistributor,points);
+        }
+    }
+
     public void Play()
     {
         while (!IsGameOver())
@@ -65,7 +80,8 @@ public class Game
         _view.ShowHandPlayer(player);
         if (_players.IsBothPlayersHandEmpty())
         {
-            //repartir cartas -> ACA VOY
+            _table.DistributeCardsAgain(player, 
+                _players.GetPlayer(_playerDistributor));
         }
 
         if (player.IsThereCardsToPlay())
@@ -73,7 +89,6 @@ public class Game
             int cardIndexToPlay = _view.AskCardToPlay(player.Hand.Count);
             PossibleMovesOnTable(player.Hand[cardIndexToPlay - 1]);
         }
-        
         
     }
 
@@ -111,7 +126,7 @@ public class Game
         if (!_table.IsThereCardsOnTable())
         {
             _view.InformEscoba(_idPlayerTurn);
-            _players.SumPointEscoba(_idPlayerTurn);
+            _players.SumPoint(_idPlayerTurn);
             
         }
         

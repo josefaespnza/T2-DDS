@@ -2,7 +2,7 @@ namespace Server;
 
 public class Table
 {
-    private List<Card> _cardsOnTable=new List<Card>();
+    private List<Card> _cardsOnTable = new List<Card>();
     private Pile _pile;
 
     public List<Card> CardsOnTable
@@ -14,17 +14,19 @@ public class Table
     public void PutPileOnTable(Pile pileOfCards) => _pile = pileOfCards;
 
     public bool IsThereAnyCardOnThePile() => _pile.isThereCardsOnThePile();
+    
+    public void DistributeCardsAgain(Player playerInTurn, Player distributorPlayer)
+    {
+        _pile.GiveCardsToPlayer(playerInTurn);
+        _pile.GiveCardsToPlayer(distributorPlayer);
+    }
 
     public void DownCard(Card card) => _cardsOnTable.Add(card);
 
     public void DrawCardsFromTable(List<Card> cards)
     {
-        foreach (var card in cards)
-        {
-            DrawCardFromTable(card);
-        }
+        _cardsOnTable = _cardsOnTable.Except(cards).ToList();
     }
-    private void DrawCardFromTable(Card card) => _cardsOnTable.Remove(card);
     public bool IsThereCardsOnTable() => _cardsOnTable.Any();
 
 }
