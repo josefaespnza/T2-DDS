@@ -15,18 +15,33 @@ public class Player
     {
         _hand.Add(card);
     }
-    public bool IsThereCardsToPlay() => _hand.Count > 0;
+    public bool IsThereCardsToPlay() => _hand.Any();
 
-    public List<Move> GetPossibleMoves(Card dropCard)
+    public List<Move> GetPossibleMoves(Card dropCard, List<Card> cardsOnTable)
     {
         List<Move> validMoves = new List<Move>();
-        
+        List<Card> partial = new List<Card>(){dropCard};
+        SubsetSum.subset_sum(cardsOnTable, partial,validMoves);
         return validMoves;
     }
 
-    private List<Card> GetPossibleTrio(List<Card> trio)
+    public void TakeCardOutOfHand(Card card)
     {
-        
-        return trio;
+        _hand.Remove(card);
     }
+
+    public void AddPlayedMove(Move played)
+    {
+        foreach (var card in played.PossibleMoves)
+        {
+            _movesPlayed.Add(card);
+        }
+    }
+
+    public void AddPoint()
+    {
+        _score += 1;
+    }
+    
+    
 }

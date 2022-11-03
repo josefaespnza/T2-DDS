@@ -21,6 +21,11 @@ public class Card
         get { return _value; }
     }
 
+    public int GetIntValue()
+    {
+        return (int)_value;
+    }
+
     public override string ToString() => _value + "_" + _pinta;
 
 

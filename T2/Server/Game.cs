@@ -32,11 +32,22 @@ public class Game
             {
                 PlayTurn();
             }
+            //las cartas que queden en la mesa se las lleva el ultimo
+            //jugador que se haya llevado cartas en el turno
+            
+            //volver a barajar
+            //y limpiar para volver a jugar una ronda
+            
+            //IDEA: quizas play puede ser recursivo en caso de que nadie llegue a los 16 puntos
+            //y no un while dentro de un while porque queda raro
+            //si es que el juego si se termina se va a hacer trabajo demas volviendo a barajar etc
         }
+        
     }
 
     private bool IsGameOver()
     {
+        //se hace conteo de puntos y si alguien tiene 16 puntos se acaba el juego
         return false;
     }
 
@@ -52,38 +63,57 @@ public class Game
     {
         Player player = _players.GetPlayer(_idPlayerTurn);
         _view.ShowHandPlayer(player);
+        if (_players.IsBothPlayersHandEmpty())
+        {
+            //repartir cartas -> ACA VOY
+        }
+
         if (player.IsThereCardsToPlay())
         {
             int cardIndexToPlay = _view.AskCardToPlay(player.Hand.Count);
-            PossibleMovesOnTable(player.Hand[cardIndexToPlay - 1], player);
+            PossibleMovesOnTable(player.Hand[cardIndexToPlay - 1]);
         }
-        else
-        {
-            //no se que pasa si el jugador se queda sin cartas en la mano
-        }
+        
+        
     }
 
-    private void PossibleMovesOnTable(Card chosenCard, Player player)
+    private void PossibleMovesOnTable(Card chosenCard)
     {
-        List<Move> validMoves = player.GetPossibleMoves(chosenCard);
+        Player player = _players.GetPlayer(_idPlayerTurn);
+        List<Move> validMoves = player.GetPossibleMoves(chosenCard, _table.CardsOnTable);
         if (validMoves.Count == 1)
         {
-            DropCards(validMoves[0], player);
+            HandleMove(validMoves[0]);
         }
         else if  (validMoves.Count>1)
         {
             int moveIndex = _view.AskMoveToPlay(validMoves);
-            DropCards(validMoves[moveIndex],player);
+            HandleMove(validMoves[moveIndex-1]);
         }
         else
         {
             _view.InformThereIsNoPossibleMoves();
+            _table.DownCard(chosenCard);
+            player.TakeCardOutOfHand(chosenCard);
         }
-        
     }
 
-    private void DropCards(Move played, Player player)
+    private void HandleMove(Move played)
     {
+        _players.HandlePlayedMove(_idPlayerTurn, played);
+        _table.DrawCardsFromTable(played.PossibleMoves);
+        _view.InformMove(played, _idPlayerTurn);
+        CheckEscoba();
+    }
+
+    private void CheckEscoba()
+    {
+        if (!_table.IsThereCardsOnTable())
+        {
+            _view.InformEscoba(_idPlayerTurn);
+            _players.SumPointEscoba(_idPlayerTurn);
+            
+        }
         
     }
 

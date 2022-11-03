@@ -15,4 +15,16 @@ public class Table
 
     public bool IsThereAnyCardOnThePile() => _pile.isThereCardsOnThePile();
 
+    public void DownCard(Card card) => _cardsOnTable.Add(card);
+
+    public void DrawCardsFromTable(List<Card> cards)
+    {
+        foreach (var card in cards)
+        {
+            DrawCardFromTable(card);
+        }
+    }
+    private void DrawCardFromTable(Card card) => _cardsOnTable.Remove(card);
+    public bool IsThereCardsOnTable() => _cardsOnTable.Any();
+
 }

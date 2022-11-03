@@ -2,22 +2,25 @@ namespace Server;
 
 public class Move
 {
-    private List<Card> _trioOfCards;
+    private List<Card> _possibleMove;
 
-    public List<Card> TrioOfCards
+    public List<Card> PossibleMoves
     {
-        get { return _trioOfCards; }
+        get { return _possibleMove; }
     }
 
-    public Move(List<Card> possibleTrio)
+    public Move(List<Card> possibleMove)
     {
-        _trioOfCards = possibleTrio;
+        _possibleMove = possibleMove;
     }
 
     public override string ToString()
     {
         string msg = "";
-        //aca voy
+        foreach (var card in _possibleMove)
+        {
+            msg += card + ", ";
+        }
         return msg;
     }
 }

@@ -13,7 +13,7 @@ public abstract class View
     public void ShowHandPlayer(Player player)
     {
         string msg = "Mano Jugador: ";
-        int i = 0;
+        int i = 1;
         foreach (var cardPlayer in player.Hand)
         {
             msg += "("+i+") " +cardPlayer+", ";
@@ -24,7 +24,7 @@ public abstract class View
     public void ShowInformationTable(Table table)
     {
         string msg = "Mesa actual: ";
-        int i = 0;
+        int i = 1;
         foreach (var card in table.CardsOnTable)
         {
             msg += "("+i+") " +card+", ";
@@ -36,7 +36,7 @@ public abstract class View
     public int AskCardToPlay(int numberOfCards)
     {
         Write("¿Qué carta quieres bajar?");
-        Write("Ingresa un número entre "+1+" y " + numberOfCards);
+        Write("Ingresa un número entre 1 y " + numberOfCards);
         int ans = AskValidNumber(1, numberOfCards);
         return ans;
     }
@@ -44,15 +44,24 @@ public abstract class View
     public int AskMoveToPlay(List<Move> validMoves)
     {
         Write("Hay "+ validMoves.Count+" jugadas en la mesa");
-        for (int i = 0; i < validMoves.Count; i++)
+        for (int i = 1; i <= validMoves.Count; i++)
         {
             Write(i+"-"+ validMoves[i]);
         }
-        int moveId = AskValidNumber(0, validMoves.Count-1);
+        Write("¿Cuál jugada quieres realizar?");
+        Write("Ingresa un número entre 1 y" + validMoves.Count);
+        int moveId = AskValidNumber(1, validMoves.Count);
         return moveId;
     }
 
     public void InformThereIsNoPossibleMoves() => Write("No hay posibles combinaciones");
+
+    public void InformMove(Move movePlayed, int playerId)
+    {
+        Write("Jugador "+ playerId +" se lleva las siguientes cartas " + movePlayed);
+    }
+
+    public void InformEscoba(int playerId) => Write("ESCOBA! **** Jugador "+playerId);
     private int AskValidNumber(int minValue, int maxValue)
     {
         int number;

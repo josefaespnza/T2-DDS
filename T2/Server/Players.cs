@@ -17,9 +17,31 @@ public class Players
         pile.GiveCardsToPlayer(_players[(playerDistributorId + 1) % 2], 3);
         pile.GiveCardsToPlayer(_players[playerDistributorId],3);
         pile.GiveCardsToTable(table, 4);
+        //checkear si se armo una escoba
         table.PutPileOnTable(pile);
     }
 
+    public bool IsBothPlayersHandEmpty()
+    {
+        if (!_players[0].IsThereCardsToPlay() && !_players[1].IsThereCardsToPlay())
+        {
+            return true;
+        }
+
+        return false;
+    }
+    public void HandlePlayedMove(int playerId, Move move)
+    {
+        Player player = GetPlayer(playerId);
+        player.AddPlayedMove(move);
+        player.TakeCardOutOfHand(move.PossibleMoves[0]);
+    }
+
+    public void SumPointEscoba(int playerId)
+    {
+        Player player = GetPlayer(playerId);
+        player.AddPoint();
+    }
     public Player GetPlayer(int playerIndex) => _players[playerIndex];
     
 }
