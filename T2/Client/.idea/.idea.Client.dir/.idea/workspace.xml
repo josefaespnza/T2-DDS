@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="5c446339-9f34-4252-a912-9e7ce72e9327" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/Game.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Game.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/Log.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Log.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/Pile.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Pile.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/Player.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Player.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/Players.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Players.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/Table.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/Table.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/View.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/View.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/bin/Debug/net6.0/Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/bin/Debug/net6.0/Server.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/bin/Debug/net6.0/Server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/bin/Debug/net6.0/Server.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/Server.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/Server.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/Server.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/Server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/Server.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/ref/Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/ref/Server.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/refint/Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/../Server/obj/Debug/net6.0/refint/Server.dll" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ProjectId" id="2H6CJ60ywl6ZKLlf5w6PCAavgPl" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <created>1667596070742</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1667596070742</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>

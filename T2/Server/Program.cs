@@ -1,4 +1,5 @@
 ﻿using Server;
 
-Game game = new Game();
+int mode = PreGame.AskGameMode();
+Game game = new Game(mode);
 game.Play();

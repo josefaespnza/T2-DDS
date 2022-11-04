@@ -2,5 +2,14 @@ namespace Server;
 
 public class Log
 {
-    //debe llevar el conteo de puntos de todas las rondas etc
+    private int _lastPlayerIdToMakeAEscoba;
+
+    public int LastPlayerIdToMakeAEscoba
+    {
+        get { return _lastPlayerIdToMakeAEscoba; }
+    }
+    public void UpdatePlayerId(int playerId)
+    {
+        _lastPlayerIdToMakeAEscoba = playerId;
+    }
 }

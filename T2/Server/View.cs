@@ -5,10 +5,18 @@ namespace Server;
 public abstract class View
 {
     protected abstract void Write(string message);
+    protected void WriteLine() => Write("");
+    protected void WriteSeparator() => Write("-------------------------------");
     protected abstract string ReadLine();
     public virtual void Close() {}
     public void Pause() => ReadLine();
-    public void ShowPlayerInTurn(int playerId) => Write("Juega jugador " + playerId);
+    
+    public void ShowPlayerInTurn(int playerId)
+    {
+        WriteSeparator();
+        Write("Juega jugador " + playerId);
+    }
+
     public void Welcome() =>Write("¡Bienvenido a la escoba!");
     public void ShowHandPlayer(Player player)
     {
@@ -46,7 +54,7 @@ public abstract class View
         Write("Hay "+ validMoves.Count+" jugadas en la mesa");
         for (int i = 1; i <= validMoves.Count; i++)
         {
-            Write(i+"-"+ validMoves[i]);
+            Write(i+"-"+ validMoves[i-1]);
         }
         Write("¿Cuál jugada quieres realizar?");
         Write("Ingresa un número entre 1 y" + validMoves.Count);
@@ -59,12 +67,49 @@ public abstract class View
     public void InformMove(Move movePlayed, int playerId)
     {
         Write("Jugador "+ playerId +" se lleva las siguientes cartas " + movePlayed);
+        WriteLine();
     }
 
     public void InformEscoba(int playerId) => Write("ESCOBA! **** Jugador "+playerId);
 
     public void InformEscobaSpecial(int playerId, int points) =>
-        Write("Jugador " + playerId + " realizó " + points+" **Escobas**");
+        Write("Jugador " + playerId + " realizó " + points+" **Escobas** al repartir las cartas");
+
+
+    public void CardsWinAtRound(string[] winCards)
+    {
+        WriteSeparator();
+        Write("Cartas ganadas en esta ronda");
+        for (int i = 0; i < winCards.Length; i++)
+        {
+            Write("Jugador " +i +":" +winCards[i]);
+        }
+        
+    }
+    public void PointsWinAtRound(int[] points)
+    {
+        WriteSeparator();
+        Write("Total puntos ganados");
+        for (int i = 0; i < points.Length; i++)
+        {
+            Write("Jugador " +i +": " +points[i]);
+        }
+        WriteSeparator();
+    }
+
+    public void ShowTieMessage()
+    {
+        WriteSeparator();
+        Write("Hubo un empate..¡Felicidades a los jugadores!\n" +
+              "Vuelvan pronto :)");
+    }
+
+    public void ShowCongratsWinner(int winnerId)
+    {
+        WriteSeparator();
+        Write("Ganador: "+ winnerId+" ¡Felicidades!");
+    }
+    
     private int AskValidNumber(int minValue, int maxValue)
     {
         int number;
