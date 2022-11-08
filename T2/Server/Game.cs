@@ -134,6 +134,7 @@ public class Game
     }
     private void HandleMove(Move played)
     {
+        _log.UpdateLastPlayerToTakeCards(_idPlayerTurn);
         _players.HandlePlayedMove(_idPlayerTurn, played);
         _table.DrawCardsFromTable(played.PossibleMoves);
         _view.InformMove(played, _idPlayerTurn);
@@ -173,9 +174,9 @@ public class Game
     private void SpecialMove()
     {
         Move specialMove = new Move(_table.CardsOnTable);
-        _players.HandlePlayedMove(_log.LastPlayerIdToMakeAEscoba(), specialMove);
+        _players.HandlePlayedMove(_log.LastPlayerToTakeCards, specialMove);
         _table.DrawCardsFromTable(specialMove.PossibleMoves);
-        _view.InformMove(specialMove, _log.LastPlayerIdToMakeAEscoba());
+        _view.InformMove(specialMove, _log.LastPlayerToTakeCards);
     }
     
     private void PrepareNextRound()
@@ -200,9 +201,6 @@ public class Game
         _view.ShowCongratsWinner(winnerId);
         
     }
-    
-    
-    
     
     
     

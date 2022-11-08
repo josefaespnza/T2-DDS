@@ -81,7 +81,7 @@ public class Players
 
     public bool CheckIfPlayerHas16Points()
     {
-        if (_players[0].Score == 16 || _players[1].Score == 16) return true;
+        if (_players[0].Score >= 16 || _players[1].Score >= 16) return true;
         return false;
     }
     public int[] WinnerId()
