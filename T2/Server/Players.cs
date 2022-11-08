@@ -55,7 +55,7 @@ public class Players
     {
         foreach (var playerId in escobaLog)
         {
-            SumPoint(escobaLog[playerId]);
+            SumPoint(playerId);
         }
         
     }

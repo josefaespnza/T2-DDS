@@ -16,9 +16,12 @@ public class Pile
         _pileOfCards = new List<Card>();
         foreach (var pinta in _pintas )
         {
+            int counter = 1;
             foreach(CardValue cardValue in Enum.GetValues(typeof(CardValue)))
             {
-                _pileOfCards.Add(new Card(pinta, cardValue));
+                if(counter<=7) _pileOfCards.Add(new CardNumber(pinta, cardValue));
+                else _pileOfCards.Add(new CardString(pinta, cardValue));
+                counter++;
             }
         }
     }

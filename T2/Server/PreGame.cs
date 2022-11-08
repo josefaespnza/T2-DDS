@@ -8,7 +8,6 @@ public static class PreGameView
         Console.WriteLine("1. Modo local");
         Console.WriteLine("2. Modo servidor");
         int mode = AskValidNumber(1, 2);
-        Console.WriteLine("¡Conectate para jugar con un amigo!");
         return mode;
     }
     private static int AskValidNumber(int minValue, int maxValue)

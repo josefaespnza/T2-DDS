@@ -2,13 +2,13 @@ namespace Server;
 
 public class Card
 {
-    private string _pinta;
-    private CardValue _value;
-
+    protected string _pinta;
+    private CardValue _valueEnum;
+    
     public Card(string pinta, CardValue value)
     {
         _pinta = pinta;
-        _value = value;
+        _valueEnum = value;
     }
 
     public string Pinta
@@ -18,16 +18,17 @@ public class Card
 
     public CardValue Value
     {
-        get { return _value; }
+        get { return _valueEnum; }
     }
 
     public int GetIntValue()
     {
-        return (int)_value;
+        return (int)_valueEnum;
     }
-
-    public override string ToString() => _value + "_" + _pinta;
+    
 
 
 }
+
+
 
