@@ -1,26 +1,10 @@
-﻿//Codigo basado en solución actividad Domino Sem 2022-2
+﻿
 
-using System.Net;
-using System.Net.Sockets;
+using Client;
 
-TcpClient client = new TcpClient ();
-client.Connect(IPAddress.Loopback, 8001);
+ClientSocket clientSocket = new ClientSocket();
 
-NetworkStream ns = client.GetStream();
-StreamWriter writer = new StreamWriter(ns);
-StreamReader reader = new StreamReader(ns);
 
-string message = "";
-while (message != "[FIN JUEGO]")
-{
-    message = reader.ReadLine();
-    if (message == "[INGRESE INPUT]")
-    {
-        string input = Console.ReadLine();
-        writer.WriteLine(input);
-        writer.Flush();
-    }
-    else if (message != "[FIN JUEGO]")
-        Console.WriteLine(message);
-}
-client.Close();
+
+
+
