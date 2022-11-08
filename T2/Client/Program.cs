@@ -9,6 +9,7 @@ client.Connect(IPAddress.Loopback, 8001);
 NetworkStream ns = client.GetStream();
 StreamWriter writer = new StreamWriter(ns);
 StreamReader reader = new StreamReader(ns);
+
 string message = "";
 while (message != "[FIN JUEGO]")
 {

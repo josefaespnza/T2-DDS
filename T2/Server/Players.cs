@@ -1,3 +1,4 @@
+
 namespace Server;
 
 public class Players
@@ -10,21 +11,16 @@ public class Players
         for (int i = 0; i < numOfPlayers; i++) _players.Add(new Player());
     }
 
+    public Player GetPlayer(int playerIndex) => _players[playerIndex];
+    
     public void DistributeCards(Table table, int playerDistributorId)
     {
         table.PileOfCards.MixPile();
         table.PileOfCards.GiveCardsToPlayer(_players[(playerDistributorId + 1) % 2]);
         table.PileOfCards.GiveCardsToPlayer(_players[playerDistributorId]);
         table.AddCardsToTable();
-        
     }
 
-    public void SumEscobaSpecialCase(int points, int playerDistributorId)
-    {
-        for(int numEscobas=0; numEscobas<points; numEscobas++) SumPoint(playerDistributorId);
-    }
-   
-    
     public bool IsThereCardsOnBothPlayers()
     {
         if (!_players[0].IsThereCardsToPlay() && !_players[1].IsThereCardsToPlay())
@@ -41,15 +37,12 @@ public class Players
         player.TakeCardOutOfHand(move.PossibleMoves[0]);
     }
 
-    public void SumPoint(int playerId)
+    
+    
+    public int[] CountPointsPlayers(List<int> escobaLog)
     {
-        Player player = GetPlayer(playerId);
-        player.AddPoint();
-    }
-
-    public int[] CountPointsPlayers()
-    {
-        int[] points = new int[_players.Count] ;
+        int[] points = new int[_players.Count];
+        AddEscobasPoints(escobaLog);
         for(int i=0; i<_players.Count; i++)
         {
             _players[i].CalculateMyPoints();
@@ -58,25 +51,27 @@ public class Players
 
         return points;
     }
-
-    public string[] WinCards()
+    public void AddEscobasPoints(List<int> escobaLog)
     {
-        string[] winCards = new string[_players.Count];
-        int i = 0;
-        foreach (var player in _players)
+        foreach (var playerId in escobaLog)
         {
-            winCards[i] = player.EarnCards();
-            i++;
+            SumPoint(escobaLog[playerId]);
         }
-        return winCards;
+        
     }
+    private void SumPoint(int playerId)
+    {
+        Player player = GetPlayer(playerId);
+        player.AddPoint();
+    }
+
     
     public void ReturnCardsToPile(Table table)
     {
         List<Card> cards = new List<Card>();
         foreach (var player in _players)
         {
-            cards = cards.Concat(player.ReturnEarnCards()).ToList();
+            cards = cards.Concat(player.EarnCardsByMoves()).ToList();
             player.ClearEarnCardsAfterReturn();
             
         }
@@ -89,8 +84,6 @@ public class Players
         if (_players[0].Score == 16 || _players[1].Score == 16) return true;
         return false;
     }
-    
-
     public int[] WinnerId()
     {
         int[] winnerId = new int[1];
@@ -101,14 +94,27 @@ public class Players
         return winnerId;
 
     }
-    
-    public bool IsATie()
+    public bool CheckIsATie()
     {
         bool isATie = _players[0].Score == _players[1].Score;
         return isATie;
     }
     
+    public string[] WinCards()
+    {
+        string[] winCards = new string[_players.Count];
+        int i = 0;
+        foreach (var player in _players)
+        {
+            winCards[i] = player.EarnCardsByMovesText();
+            i++;
+        }
+        return winCards;
+    }
+    
+    
+    
 
-    public Player GetPlayer(int playerIndex) => _players[playerIndex];
+    
     
 }

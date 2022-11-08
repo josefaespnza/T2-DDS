@@ -4,21 +4,24 @@ namespace Server;
 
 public abstract class View
 {
-    protected abstract void Write(string message);
-    protected void WriteLine() => Write("");
-    protected void WriteSeparator() => Write("-------------------------------");
-    protected abstract string ReadLine();
+    protected abstract void WriteByPlayer(string message, int playerId);
+    protected abstract void WriteForAll(string message);
+    protected void WriteLine() => WriteForAll("");
+    protected void WriteSeparator() => WriteForAll("-------------------------------");
+   
+    protected abstract string ReadLine(int playerId);
+    
     public virtual void Close() {}
-    public void Pause() => ReadLine();
+    
+    public void Welcome() =>WriteForAll("¡Bienvenido a la escoba!");
     
     public void ShowPlayerInTurn(int playerId)
     {
         WriteSeparator();
-        Write("Juega jugador " + playerId);
+        WriteForAll("Juega jugador " + playerId);
     }
-
-    public void Welcome() =>Write("¡Bienvenido a la escoba!");
-    public void ShowHandPlayer(Player player)
+    
+    public void ShowHandPlayer(Player player, int playerId)
     {
         string msg = "Mano Jugador: ";
         int i = 1;
@@ -27,9 +30,9 @@ public abstract class View
             msg += "("+i+") " +cardPlayer+", ";
             i++;
         }
-        Write(msg);
+        WriteByPlayer(msg, playerId);
     }
-    public void ShowInformationTable(Table table)
+    public void ShowInformationTable(Table table, int playerId)
     {
         string msg = "Mesa actual: ";
         int i = 1;
@@ -38,61 +41,74 @@ public abstract class View
             msg += "("+i+") " +card+", ";
             i++;
         } 
-        Write(msg);
+        WriteByPlayer(msg,playerId);
         
     }
-    public int AskCardToPlay(int numberOfCards)
+    
+    public int AskCardToPlay(int numberOfCards, int playerId)
     {
-        Write("¿Qué carta quieres bajar?");
-        Write("Ingresa un número entre 1 y " + numberOfCards);
-        int ans = AskValidNumber(1, numberOfCards);
+        WriteByPlayer("¿Qué carta quieres bajar?", playerId);
+        WriteByPlayer("Ingresa un número entre 1 y " + numberOfCards, playerId);
+        int ans = AskValidNumber(1, numberOfCards, playerId);
         return ans;
     }
 
-    public int AskMoveToPlay(List<Move> validMoves)
+    public int AskMoveToPlay(List<Move> validMoves, int playerId)
     {
-        Write("Hay "+ validMoves.Count+" jugadas en la mesa");
+        WriteByPlayer("Hay "+ validMoves.Count+" jugadas en la mesa", playerId);
         for (int i = 1; i <= validMoves.Count; i++)
         {
-            Write(i+"-"+ validMoves[i-1]);
+            WriteByPlayer(i+"-"+ validMoves[i-1],playerId);
         }
-        Write("¿Cuál jugada quieres realizar?");
-        Write("Ingresa un número entre 1 y" + validMoves.Count);
-        int moveId = AskValidNumber(1, validMoves.Count);
+        WriteByPlayer("¿Cuál jugada quieres realizar?",playerId);
+        WriteByPlayer("Ingresa un número entre 1 y" + validMoves.Count,playerId);
+        int moveId = AskValidNumber(1, validMoves.Count, playerId);
         return moveId;
     }
+    
+    private int AskValidNumber(int minValue, int maxValue, int playerId)
+    {
+        int number;
+        bool isPossibleToTransformString;
+        do
+        {
+            string? inputUser = ReadLine(playerId);
+            isPossibleToTransformString = int.TryParse(inputUser, out number);
+        } while (!isPossibleToTransformString || number < minValue || number > maxValue);
 
-    public void InformThereIsNoPossibleMoves() => Write("No hay posibles combinaciones");
+        return number;
+    }
 
     public void InformMove(Move movePlayed, int playerId)
     {
-        Write("Jugador "+ playerId +" se lleva las siguientes cartas " + movePlayed);
+        WriteForAll("Jugador "+ playerId +" se lleva las siguientes cartas " + movePlayed);
         WriteLine();
     }
-
-    public void InformEscoba(int playerId) => Write("ESCOBA! **** Jugador "+playerId);
+    public void InformThereIsNoPossibleMoves(int playerId) => WriteByPlayer("No hay posibles combinaciones",playerId);
+    
+    public void InformEscoba(int playerId) => WriteForAll("ESCOBA! **** Jugador "+playerId);
 
     public void InformEscobaSpecial(int playerId, int points) =>
-        Write("Jugador " + playerId + " realizó " + points+" **Escobas** al repartir las cartas");
+        WriteForAll("Jugador " + playerId + " realizó " + points+" **Escobas** al repartir las cartas");
 
 
     public void CardsWinAtRound(string[] winCards)
     {
         WriteSeparator();
-        Write("Cartas ganadas en esta ronda");
+        WriteForAll("Cartas ganadas en esta ronda");
         for (int i = 0; i < winCards.Length; i++)
         {
-            Write("Jugador " +i +":" +winCards[i]);
+            WriteForAll("Jugador " +i +":" +winCards[i]);
         }
         
     }
     public void PointsWinAtRound(int[] points)
     {
         WriteSeparator();
-        Write("Total puntos ganados");
+        WriteForAll("Total puntos ganados");
         for (int i = 0; i < points.Length; i++)
         {
-            Write("Jugador " +i +": " +points[i]);
+            WriteForAll("Jugador " +i +": " +points[i]);
         }
         WriteSeparator();
     }
@@ -100,28 +116,17 @@ public abstract class View
     public void ShowTieMessage()
     {
         WriteSeparator();
-        Write("Hubo un empate..¡Felicidades a los jugadores!\n" +
+        WriteForAll("Hubo un empate..¡Felicidades a los jugadores!\n" +
               "Vuelvan pronto :)");
     }
 
     public void ShowCongratsWinner(int winnerId)
     {
         WriteSeparator();
-        Write("Ganador: "+ winnerId+" ¡Felicidades!");
+        WriteForAll("Ganador: "+ winnerId+" ¡Felicidades!");
     }
     
-    private int AskValidNumber(int minValue, int maxValue)
-    {
-        int number;
-        bool isPossibleToTransformString;
-        do
-        {
-            string? inputUser = ReadLine();
-            isPossibleToTransformString = int.TryParse(inputUser, out number);
-        } while (!isPossibleToTransformString || number < minValue || number > maxValue);
-
-        return number;
-    }
+    
     
 
 }

@@ -9,24 +9,30 @@ public class Table
     {
         _pile = new Pile();
     }
-    public List<Card> CardsOnTable
-    {
-        get { return _cardsOnTable; }
-    }
-
-    public Pile PileOfCards
-    {
-        get { return _pile; }
-    }
     
-    public void AddCardsToTable(Card card) =>_cardsOnTable.Add(card);
+    public List<Card> CardsOnTable => _cardsOnTable;
+
+    public Pile PileOfCards => _pile;
 
     public void AddCardsToTable(){
         int cardsQuantity = 4;
-        for(int i=0; i<cardsQuantity; i++) AddCardsToTable(_pile.TakeCardOfPile());
+        for (int i = 0; i < cardsQuantity; i++)
+        {
+            Card drawCard = _pile.TakeCardOfPile();
+            AddCardToTable(drawCard);
+        }
     }
-
+    public void AddCardToTable(Card card) =>_cardsOnTable.Add(card);
+    public void DrawCardsFromTable(List<Card> cards)
+    {
+        _cardsOnTable = _cardsOnTable.Except(cards).ToList();
+    }
+    
+    public bool IsThereCardsOnTable() => _cardsOnTable.Any();
+    
+    
     public bool IsThereAnyCardOnThePile() => _pile.isThereCardsOnThePile();
+    
     
     public void DistributeCardsAgain(Player playerInTurn, Player distributorPlayer)
     {
@@ -34,12 +40,6 @@ public class Table
         _pile.GiveCardsToPlayer(distributorPlayer);
     }
 
-    public void DownCard(Card card) => _cardsOnTable.Add(card);
-
-    public void DrawCardsFromTable(List<Card> cards)
-    {
-        _cardsOnTable = _cardsOnTable.Except(cards).ToList();
-    }
-    public bool IsThereCardsOnTable() => _cardsOnTable.Any();
+    
 
 }

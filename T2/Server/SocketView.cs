@@ -6,37 +6,74 @@ namespace Server;
 public class SocketView:View
 {
     private TcpListener _listener;
-    private TcpClient _client;
-    private StreamReader _reader;
-    private StreamWriter _writer;
+    private List<TcpClient> _clients;
+    private Dictionary<int, StreamReader> _reader;
+    private Dictionary<int, StreamWriter> _writer;
 
     public SocketView()
     {
+        _clients = new List<TcpClient>();
         _listener = new TcpListener(IPAddress.Loopback, 8001);
         _listener.Start();
-        Console.WriteLine("Waiting for connection");
-        _client = _listener.AcceptTcpClient();
-        Console.WriteLine("Client accepted");
-        _reader = new StreamReader(_client.GetStream());
-        _writer = new StreamWriter(_client.GetStream());
+        _reader= new Dictionary<int, StreamReader>();
+        _writer = new Dictionary<int, StreamWriter>();
+        AcceptConnections();
+     
     }
-    protected override void Write(string message)
+
+    private void AcceptConnections()
+    { 
+        int numOfPlayers = 0;
+       while (numOfPlayers < 2)
+        {
+            AcceptClient(numOfPlayers);
+            numOfPlayers++;
+        }
+    }
+
+    private void AcceptClient(int playerIndex)
     {
-        _writer.Write(message);
-        _writer.Flush();
+        TcpClient client = _listener.AcceptTcpClient();
+        _clients.Add(client);
+        _reader[playerIndex] = new StreamReader(_clients[playerIndex].GetStream());
+        _writer[playerIndex] = new StreamWriter(_clients[playerIndex].GetStream());
+    }
+    protected override void WriteForAll(string message)
+    {
+        
+        foreach (var playerId in _writer.Keys)
+        {
+            _writer[playerId].WriteLine(message);
+            _writer[playerId].Flush();
+        }
+    }
+    protected override void WriteByPlayer(string message, int playerId)
+    {
+       
+        _writer[playerId].WriteLine(message);
+        _writer[playerId].Flush();
+       
     }
 
 
-    protected override string ReadLine()
+    protected override string ReadLine(int playerId)
     {
-        Write("[INGRESE INPUT]");
-        return _reader.ReadLine();
+       
+        WriteByPlayer("[INGRESE INPUT]",playerId);
+        return _reader[playerId].ReadLine();
+        
     }
 
     public override void Close()
     {
-        Write("[FIN JUEGO]");
-        _client.Close();
+        WriteForAll("[FIN JUEGO]");
+        foreach (var client in _clients)
+        {
+            client.Close();
+        }
         _listener.Stop();
+        
     }
+    
+    
 }

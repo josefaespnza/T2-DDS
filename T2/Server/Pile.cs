@@ -3,6 +3,7 @@ namespace Server;
 public class Pile
 {
     private string[] _pintas = {"Oro","Espada","Copa","Bastos"}; 
+    
     private List<Card> _pileOfCards;
 
     public Pile()
@@ -21,18 +22,22 @@ public class Pile
             }
         }
     }
-
+    
+    public void MixPile()
+    {
+        _pileOfCards = _pileOfCards.OrderBy(carta => RandomNumberGenerator.Generate()).ToList();
+    }
+    
+    
     public void GiveCardsToPlayer(Player player)
     {
         int cardQuantity = 3;
-        for(int i=0; i<cardQuantity; i++) player.AddCardHand(TakeCardOfPile());
+        for (int i = 0; i < cardQuantity; i++)
+        {
+            Card removedCard = TakeCardOfPile();
+            player.AddCardHand(removedCard);
+        }
     }
-
-    public void ReturnCardsToPile(List<Card> cards)
-    {
-        _pileOfCards = cards;
-    }
-
     public Card TakeCardOfPile()
     {
         Card cardTaken = _pileOfCards[_pileOfCards.Count-1];
@@ -40,10 +45,11 @@ public class Pile
         return cardTaken;
     }
 
-    public void MixPile()
+    public void ReturnCardsToPile(List<Card> cards)
     {
-        _pileOfCards = _pileOfCards.OrderBy(carta => RandomNumberGenerator.Generate()).ToList();
+        _pileOfCards = cards;
     }
-
+    
+    
     public bool isThereCardsOnThePile() => _pileOfCards.Any();
 }

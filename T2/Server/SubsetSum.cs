@@ -1,4 +1,4 @@
-//obtenido de:https://stackoverflow.com/questions/4632322/finding-all-possible-combinations-of-numbers-to-reach-a-given-sum
+
 namespace Server;
 
 public static class SubsetSum
@@ -7,7 +7,8 @@ public static class SubsetSum
 
     public static void subset_sum(List<Card> cards, List<Card> partial, List<Move> moves)
     {
-
+        //obtenido de:
+        //https://stackoverflow.com/questions/4632322/finding-all-possible-combinations-of-numbers-to-reach-a-given-sum
         int s = 0;
         foreach (var card in partial)
         {
@@ -43,6 +44,7 @@ public static class SubsetSum
         else if (IsSubsetSum30(numOfPartition)) numOfPartition = 2;
         return numOfPartition;
     }
+    
     private static int Sum(List<Card> cardsArray)
     {
         int sum = 0;
