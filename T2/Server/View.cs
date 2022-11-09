@@ -132,7 +132,7 @@ public abstract class View
     public void ShowCongratsWinner(int winnerId)
     {
         WriteSeparator();
-        WriteForAll("Ganador: "+ winnerId+" ¡Felicidades!");
+        WriteForAll("Ganador: Jugador "+ winnerId+" ¡Felicidades!");
     }
     
     

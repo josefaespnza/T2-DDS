@@ -96,7 +96,10 @@ public class Players
         int[] winnerId = new int[1];
         for (int i = 0; i < _players.Count; i++)
         {
-            if (_players[i].Score == 16) winnerId[0]=i;
+            if (_players[i].Score >= 16)
+            {
+                winnerId[0]=i;
+            }
         }
         return winnerId;
 

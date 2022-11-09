@@ -234,7 +234,11 @@ public class Game
         {
             _view.ShowTieMessage();
         }
-        CongratsSingleWinner();
+        else
+        {
+            CongratsSingleWinner();
+        }
+        
     }
     private void CongratsSingleWinner()
     {
