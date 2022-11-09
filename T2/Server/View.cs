@@ -21,17 +21,6 @@ public abstract class View
         WriteForAll("Juega jugador " + playerId);
     }
     
-    public void ShowHandPlayer(Player player, int playerId)
-    {
-        string msg = "Mano Jugador: ";
-        int i = 1;
-        foreach (var cardPlayer in player.Hand)
-        {
-            msg += "("+i+") " +cardPlayer+", ";
-            i++;
-        }
-        WriteByPlayer(msg, playerId);
-    }
     public void ShowInformationTable(Table table, int playerId)
     {
         string msg = "Mesa actual: ";
@@ -45,6 +34,19 @@ public abstract class View
         
     }
     
+    
+    public void ShowHandPlayer(Player player, int playerId)
+    {
+        string msg = "Mano Jugador: ";
+        int i = 1;
+        foreach (var cardPlayer in player.Hand)
+        {
+            msg += "("+i+") " +cardPlayer+", ";
+            i++;
+        }
+        WriteByPlayer(msg, playerId);
+    }
+    
     public int AskCardToPlay(int numberOfCards, int playerId)
     {
         WriteByPlayer("¿Qué carta quieres bajar?", playerId);
@@ -53,16 +55,20 @@ public abstract class View
         return ans;
     }
 
-    public int AskMoveToPlay(List<Move> validMoves, int playerId)
+    public void ShowValidMoves(List<Move> validMoves,  int playerId)
     {
         WriteByPlayer("Hay "+ validMoves.Count+" jugadas en la mesa", playerId);
         for (int i = 1; i <= validMoves.Count; i++)
         {
             WriteByPlayer(i+"-"+ validMoves[i-1],playerId);
         }
+    }
+    public int AskMoveToPlay(int numberOfValidMoves, int playerId)
+    {
+        
         WriteByPlayer("¿Cuál jugada quieres realizar?",playerId);
-        WriteByPlayer("Ingresa un número entre 1 y" + validMoves.Count,playerId);
-        int moveId = AskValidNumber(1, validMoves.Count, playerId);
+        WriteByPlayer("Ingresa un número entre 1 y" + numberOfValidMoves, playerId);
+        int moveId = AskValidNumber(1, numberOfValidMoves, playerId);
         return moveId;
     }
     
@@ -84,6 +90,7 @@ public abstract class View
         WriteForAll("Jugador "+ playerId +" se lleva las siguientes cartas " + movePlayed);
         WriteLine();
     }
+    
     public void InformThereIsNoPossibleMoves(int playerId) => WriteByPlayer("No hay posibles combinaciones",playerId);
     
     public void InformEscoba(int playerId) => WriteForAll("ESCOBA! **** Jugador "+playerId);
@@ -92,6 +99,7 @@ public abstract class View
         WriteForAll("Jugador " + playerId + " realizó " + points+" **Escobas** al repartir las cartas");
 
 
+    
     public void CardsWinAtRound(string[] winCards)
     {
         WriteSeparator();
@@ -113,6 +121,7 @@ public abstract class View
         WriteSeparator();
     }
 
+    
     public void ShowTieMessage()
     {
         WriteSeparator();

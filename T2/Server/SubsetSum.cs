@@ -38,9 +38,8 @@ public static class SubsetSum
         for (int i = 0; i < cards.Count; i++)
         {
             List<Card> remaining = new List<Card>();
-            Card n = cards[i];
             for (int j = i + 1; j < cards.Count; j++) remaining.Add(cards[j]);
-            List<Card> partialRec = new List<Card>(partial) { n };
+            List<Card> partialRec = new List<Card>(partial) {cards[i]};
             subset_sum(remaining, partialRec, moves);
         }
     }

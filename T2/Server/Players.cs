@@ -39,19 +39,14 @@ public class Players
 
     
     
-    public int[] CountPointsPlayers(List<int> escobaLog)
+    public int[] CounterPoints(List<int> escobaLog)
     {
-        int[] points = new int[_players.Count];
         AddEscobasPoints(escobaLog);
-        for(int i=0; i<_players.Count; i++)
-        {
-            _players[i].CalculateMyPoints();
-            points[i]=_players[i].Score;
-        }
-
+        int[] points = PointsCounterByPlayer();
         return points;
     }
-    public void AddEscobasPoints(List<int> escobaLog)
+    
+    private void AddEscobasPoints(List<int> escobaLog)
     {
         foreach (var playerId in escobaLog)
         {
@@ -59,12 +54,24 @@ public class Players
         }
         
     }
+    
     private void SumPoint(int playerId)
     {
         Player player = GetPlayer(playerId);
         player.AddPoint();
     }
-
+    
+    private int[] PointsCounterByPlayer()
+    {
+        int[] points = new int[_players.Count];
+        for(int i=0; i<_players.Count; i++)
+        {
+            _players[i].CalculateMyPoints();
+            points[i]=_players[i].Score;
+        }
+        return points;
+    }
+    
     
     public void ReturnCardsToPile(Table table)
     {
@@ -103,14 +110,13 @@ public class Players
     public string[] WinCards()
     {
         string[] winCards = new string[_players.Count];
-        int i = 0;
-        foreach (var player in _players)
+        for (int i = 0; i < _players.Count; i++)
         {
-            winCards[i] = player.EarnCardsByMovesText();
-            i++;
+            winCards[i] = _players[i].EarnCardsByMovesText();
         }
         return winCards;
     }
+
     
     
     

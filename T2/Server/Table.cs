@@ -15,8 +15,7 @@ public class Table
     public Pile PileOfCards => _pile;
 
     public void AddCardsToTable(){
-        int cardsQuantity = 4;
-        for (int i = 0; i < cardsQuantity; i++)
+        for (int i = 0; i < 4; i++)
         {
             Card drawCard = _pile.TakeCardOfPile();
             AddCardToTable(drawCard);

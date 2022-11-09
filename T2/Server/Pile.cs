@@ -19,12 +19,24 @@ public class Pile
             int counter = 1;
             foreach(CardValue cardValue in Enum.GetValues(typeof(CardValue)))
             {
-                if(counter<=7) _pileOfCards.Add(new CardNumber(pinta, cardValue));
-                else _pileOfCards.Add(new CardString(pinta, cardValue));
+                NewCard(pinta, counter, cardValue);
                 counter++;
             }
         }
     }
+
+    private void NewCard(string pinta, int counter, CardValue cardValue)
+    {
+        if (counter <= 7)
+        {
+            _pileOfCards.Add(new CardNumber(pinta, cardValue));
+        }
+        else
+        {
+            _pileOfCards.Add(new CardString(pinta, cardValue));
+        }
+    }
+    
     
     public void MixPile()
     {

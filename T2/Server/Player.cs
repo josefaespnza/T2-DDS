@@ -15,11 +15,12 @@ public class Player
     public bool IsThereCardsToPlay() => _hand.Any();
     public void TakeCardOutOfHand(Card card)=>_hand.Remove(card);
     
+    
     public List<Move> GetPossibleMoves(Card dropCard, List<Card> cardsOnTable)
     {
         List<Move> validMoves = new List<Move>();
         List<Card> partial = new List<Card>(){dropCard};
-        SubsetSum.subset_sum(cardsOnTable, partial,validMoves);
+        SubsetSum.subset_sum(cardsOnTable, partial, validMoves);
         return validMoves;
     }
     
@@ -43,33 +44,54 @@ public class Player
     
     public void CalculateMyPoints()
     {
-        int nGoldSevens = CountGoldSeven();
-        for(int i=0; i<nGoldSevens;i++ ) AddPoint();
-        if(NumberOfEarnCardsByMoves()>=20) AddPoint();
-        if(NumberOfSeven()>=2) AddPoint();
-        if(NumberOfGold()>=5) AddPoint();
-    }
-    
-    public void AddPoint()
-    {
-        _score += 1;
+        
+        CheckWinPointGoldSeven();
+        CheckPointByNumberOfCards();
+        CheckPointNumberOfSevens();
+        CheckPointForNumberOfGold();
+
+
     }
 
-    private int CountGoldSeven()
+    private void CheckWinPointGoldSeven()
     {
-        int goldSeven = 0;
+        if (IsGoldSevenInEarnCards())
+        {
+            AddPoint();
+        }
+    }
+    
+    private bool IsGoldSevenInEarnCards()
+    {
+        bool goldSeven = false ;
         foreach (var card in _movesPlayed)
         {
-            if (card.Pinta == "Oro" && card.GetIntValue()==7) goldSeven += 1;
+            if (card.Pinta == "Oro" && card.GetIntValue()==7) goldSeven = true;
         }
         return goldSeven;
     }
 
+    private void CheckPointByNumberOfCards()
+    {
+        if (NumberOfEarnCardsByMoves() >= 20)
+        {
+            AddPoint();
+        }
+    }
+    
     private int NumberOfEarnCardsByMoves()
     {
         return _movesPlayed.Count;
     }
 
+    private void CheckPointNumberOfSevens()
+    {
+        if (NumberOfSeven() >= 2)
+        {
+            AddPoint();
+        }
+    }
+    
     private int NumberOfSeven()
     {
         int numSevens = 0;
@@ -80,6 +102,14 @@ public class Player
         return numSevens;
     }
 
+    private void CheckPointForNumberOfGold()
+    {
+        if (NumberOfGold() >= 5)
+        {
+            AddPoint();
+        }
+    }
+    
     private int NumberOfGold()
     {
         int goldCards = 0;
@@ -88,6 +118,11 @@ public class Player
             if (card.Pinta == "Oro" ) goldCards+= 1;
         }
         return goldCards;
+    }
+    
+    public void AddPoint()
+    {
+        _score += 1;
     }
     
 }

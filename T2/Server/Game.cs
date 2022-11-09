@@ -37,19 +37,11 @@ public class Game
     {
         while (!IsGameOver())
         {
-            DistributeCards();
-            SpecialCaseEscoba();
-            DecideWhoStars();
-            while (CardsAvailable())
-            {
-                PlayTurn();
-            }
-            
-            EndRound();
-            PrepareNextRound();
+            StartRound();
+            Round();
+            FinishRound();
         }
-        HandleGameOver();
-        _view.Close();
+        GameOver();
         
     }
     
@@ -57,27 +49,47 @@ public class Game
     {
         return _players.CheckIfPlayerHas16Points();
     }
+
+    private void StartRound()
+    {
+        DistributeCards();
+        SpecialCaseEscoba();
+        DecideWhoStars();
+    }
     
     private void DistributeCards() => _players.DistributeCards(_table, _playerDistributor);
+    
     private void SpecialCaseEscoba()
     {
         int points = SubsetSum.PartitionSet(_table.CardsOnTable);
         if (points!=0)
         {
-            Player player = _players.GetPlayer(_playerDistributor);
-            for(int i=0; i<points;i++) _log.AddEscoba(_playerDistributor);
-            player.AddPlayedMove(_table.CardsOnTable);
-            _table.DrawCardsFromTable(_table.CardsOnTable);
-            _view.InformEscobaSpecial(_playerDistributor,points);
+            HandleSpecialEscobaCase(points);
         }
+    }
+    private void HandleSpecialEscobaCase(int points)
+    {
+        Player player = _players.GetPlayer(_playerDistributor);
+        for(int i=0; i<points;i++) _log.AddEscoba(_playerDistributor);
+        player.AddPlayedMove(_table.CardsOnTable);
+        _table.DrawCardsFromTable(_table.CardsOnTable);
+        _view.InformEscobaSpecial(_playerDistributor,points);
     }
     
     private void DecideWhoStars() => _idPlayerTurn = (_playerDistributor + 1) % NumOfPlayers;
-    
+
+    private void Round()
+    {
+        while (CardsAvailable())
+        {
+            PlayTurn();
+        }
+    }
     private bool CardsAvailable()
     {
         return _table.IsThereAnyCardOnThePile() || _players.IsThereCardsOnBothPlayers();
     }
+    
     
     private void PlayTurn()
     {
@@ -92,13 +104,9 @@ public class Game
         Player player = _players.GetPlayer(_idPlayerTurn);
         GiveCardsToPlayer();
         _view.ShowHandPlayer(player, _idPlayerTurn);
-        if (player.IsThereCardsToPlay())
-        {
-            int cardIndexToPlay = _view.AskCardToPlay(player.Hand.Count,_idPlayerTurn);
-            PossibleMovesOnTable(player.Hand[cardIndexToPlay - 1]);
-        }
+        PlayCard();
+        
     }
-
     private void GiveCardsToPlayer()
     {
         Player player = _players.GetPlayer(_idPlayerTurn);
@@ -108,29 +116,42 @@ public class Game
                 _players.GetPlayer(_playerDistributor));
         }
     }
+    private void PlayCard()
+    {
+        Player player = _players.GetPlayer(_idPlayerTurn);
+        if (player.IsThereCardsToPlay())
+        {
+            int chosenCardIndex = _view.AskCardToPlay(player.Hand.Count,_idPlayerTurn);
+            PossibleMovesOnTable(player.Hand[chosenCardIndex - 1]);
+        }
+    }
     
     private void PossibleMovesOnTable(Card chosenCard)
     {
         Player player = _players.GetPlayer(_idPlayerTurn);
         List<Move> validMoves = player.GetPossibleMoves(chosenCard, _table.CardsOnTable);
+        if(validMoves.Any()) ChooseMoveToPlay(validMoves);
+        else NoMovesAvailable(chosenCard);
+    }
+    private void ChooseMoveToPlay( List<Move> validMoves)
+    {
         if (validMoves.Count == 1)
         {
             PlayMove(validMoves[0]);
         }
         else if  (validMoves.Count>1)
         {
-            int moveIndex = _view.AskMoveToPlay(validMoves, _idPlayerTurn);
+            _view.ShowValidMoves(validMoves, _idPlayerTurn);
+            int moveIndex = _view.AskMoveToPlay(validMoves.Count, _idPlayerTurn);
             PlayMove(validMoves[moveIndex-1]);
         }
-        else
-        {
-           NoMovesAvailable(chosenCard);
-        }
+        
     }
     private void PlayMove(Move chosenMove)
     {
         HandleMove(chosenMove);
-        CheckEscoba();
+        if(IsEscoba()) Escoba();
+        
     }
     private void HandleMove(Move played)
     {
@@ -140,13 +161,16 @@ public class Game
         _view.InformMove(played, _idPlayerTurn);
         
     }
-    private void CheckEscoba()
+
+    private bool IsEscoba()
     {
-        if (!_table.IsThereCardsOnTable())
-        {
-            _log.AddEscoba(_idPlayerTurn);
-            _view.InformEscoba(_idPlayerTurn);
-        }
+        return !_table.IsThereCardsOnTable();
+    }
+    private void Escoba()
+    {
+        
+        _log.AddEscoba(_idPlayerTurn);
+        _view.InformEscoba(_idPlayerTurn);
         
     }
     
@@ -159,16 +183,27 @@ public class Game
     }
     
     private void ProceedTurn() => _idPlayerTurn = (_idPlayerTurn + 1) % NumOfPlayers;
-    
+
+
+    private void FinishRound()
+    {
+        EndRound();
+        PrepareNextRound();
+    }
     private void EndRound()
+    {
+        ManageSpecialMove();
+        int[] points = _players.CounterPoints(_log.EscobaLog);
+        _view.CardsWinAtRound(_players.WinCards());
+        _view.PointsWinAtRound(points);
+    }
+
+    private void ManageSpecialMove()
     {
         if (_table.IsThereCardsOnTable())
         {
             SpecialMove();
         }
-        int[] points = _players.CountPointsPlayers(_log.EscobaLog);
-        _view.CardsWinAtRound(_players.WinCards());
-        _view.PointsWinAtRound(points);
     }
     
     private void SpecialMove()
@@ -186,7 +221,13 @@ public class Game
         _log.ClearLog();
     }
     private void NextDistributor() => _playerDistributor = (_playerDistributor + 1) % NumOfPlayers;
-    
+
+
+    private void GameOver()
+    {
+        HandleGameOver();
+        _view.Close();
+    }
     private void HandleGameOver()
     {
         if (_players.CheckIsATie())
@@ -203,10 +244,4 @@ public class Game
     }
     
     
-    
-    
-    
-    
-    
-
 }
